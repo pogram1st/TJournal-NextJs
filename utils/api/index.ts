@@ -16,7 +16,7 @@ export const Api = (ctx?: NextPageContext | GetServerSidePropsContext): ApiRetur
   const token = cookies.authToken;
 
   const instance = axios.create({
-    baseURL: 'https://t-journal-nest-js.vercel.app',
+    baseURL: process.env.REACT_APP_BACKEND_URL,
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,
