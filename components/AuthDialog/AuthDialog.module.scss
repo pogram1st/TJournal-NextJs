@@ -1,0 +1,88 @@
+.root {
+  width: 400px !important;
+  margin: 0 auto;
+  position: relative;
+}
+
+.content {
+  .bigButtons {
+    position: relative;
+    img {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
+}
+
+.title {
+  padding: 0 !important;
+  padding-top: 15px;
+  margin: 0 !important;
+  color: black !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+
+.emailTitleBlock {
+  cursor: pointer;
+  margin: 0;
+  width: fit-content;
+  .back {
+    float: left;
+    top: 0;
+    left: 0;
+    transform: translate(0, 35%);
+    cursor: pointer;
+    margin-right: 10px;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+  }
+  &:hover {
+    color: rgb(26, 107, 238);
+    .back {
+      transform: scale(1.2) translate(0, 30%);
+    }
+  }
+}
+
+.miniButton {
+  display: flex;
+  justify-content: space-between;
+  button {
+    height: 40px !important;
+  }
+}
+
+.closeImg {
+  float: right;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.3s ease-in;
+  &:hover {
+    transform: rotate(90deg);
+  }
+}
+
+.regText {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+  cursor: pointer;
+  b {
+    color: rgb(26, 107, 238) !important;
+  }
+}
+
+.titleForm {
+  padding: 0;
+  margin: 0;
+  margin: 10px 0 5px;
+}
+
+.signInText {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 20px;
+}
