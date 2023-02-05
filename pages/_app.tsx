@@ -31,7 +31,6 @@ function App({ Component, ...rest }) {
         <CssBaseline />
 
         <Provider store={store}>
-          <Header />
           <Component {...pageProps} />
         </Provider>
       </MuiThemeProvider>

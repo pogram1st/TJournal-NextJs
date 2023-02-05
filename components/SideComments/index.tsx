@@ -12,8 +12,6 @@ export const SideComments = () => {
 
   const [allComments, setAllComments] = React.useState<commentItem[]>([]);
 
-  console.log(allComments);
-
   const toggleVisibleComments = () => {
     setHideComments((prev) => !prev);
   };

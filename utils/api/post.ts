@@ -27,6 +27,10 @@ export const postApi = (instance: AxiosInstance) => ({
     const { data } = await instance.get('/posts');
     return data;
   },
+  async getPostsUser(id: number) {
+    const { data } = await instance.get(`/posts/user/${id}`);
+    return data;
+  },
   async create(dto: CreatePostDto): Promise<PostProps> {
     const { data } = await instance.post<PostProps>('/posts', dto);
     return data;

@@ -19,6 +19,9 @@ export const userSlice = createSlice({
     setUserData: (state, action: PayloadAction<ResponseCreateUser>) => {
       return { data: action.payload };
     },
+    logout: (state) => {
+      return { data: null };
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -28,6 +31,8 @@ export const userSlice = createSlice({
 });
 
 export const { setUserData } = userSlice.actions;
+
+export const { logout } = userSlice.actions;
 
 export const selectUserData = (state: RootState) => state.user.data;
 

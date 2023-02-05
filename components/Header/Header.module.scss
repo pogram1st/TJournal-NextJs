@@ -1,88 +1,122 @@
 .root {
-    position: fixed;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff4e2 !important;
-    padding: 0 35px 0 10px;
-    height: 60px;
-    margin-bottom: 14px;
-    z-index: 1;
+  position: fixed;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff4e2 !important;
+  padding: 0 35px 0 10px;
+  height: 60px;
+  margin-bottom: 14px;
+  z-index: 100;
 }
 
 .results__search {
-    position: absolute !important;
-    top: 40px !important;
-    width: 100%;
+  position: absolute !important;
+  top: 40px !important;
+  width: 100%;
 }
 
 .logo {
-    width: 32px;
-    height: 42px;
-    margin-right: 25px;
-    margin-left: 10px;
+  width: 32px;
+  height: 42px;
+  margin-right: 25px;
+  margin-left: 10px;
 }
 
 .avatar {
-    margin-left: 15px;
-    border-radius: 20% !important;
-    margin-right: 6px;
+  margin-left: 15px;
+  border-radius: 20% !important;
+  margin-right: 6px;
 }
 
 .penButton {
-    min-width: 40px !important;
-    text-transform: inherit !important;
-    font-size: 16px !important;
-    letter-spacing: 0 !important;
+  min-width: 40px !important;
+  text-transform: inherit !important;
+  font-size: 16px !important;
+  letter-spacing: 0 !important;
 }
 
 .searchBlock {
-    position: relative;
-    margin-right: 15px;
-    width: 310px;
-    svg {
-        position: absolute;
-        top: 8px;
-        left: 10px;
-        opacity: 0.3;
+  position: relative;
+  margin-right: 15px;
+  width: 310px;
+  svg {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    opacity: 0.3;
+  }
+  input {
+    width: 100%;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.05);
+    font-size: 16px;
+    padding-left: 40px;
+    transition: all 0.1s ease-in-out;
+    border: 1px solid transparent;
+    &:hover,
+    &:focus {
+      background-color: #fff;
+      border-color: darken(#fff4e2, 15%);
+      box-shadow: 0 0 0 3px rgb(229 160 64 / 12%);
     }
-    input {
-        width: 100%;
-        height: 40px;
-        border: 0;
-        border-radius: 10px;
-        background-color: rgba(0, 0, 0, 0.05);
-        font-size: 16px;
-        padding-left: 40px;
-        transition: all 0.1s ease-in-out;
-        border: 1px solid transparent;
-        &:hover,
-        &:focus {
-            background-color: #fff;
-            border-color: darken(#fff4e2, 15%);
-            box-shadow: 0 0 0 3px rgb(229 160 64 / 12%);
-        }
-    }
+  }
 }
 
 .loginButton {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    margin-left: 15px;
-    img {
-        height: 24px;
-        width: 24px;
-        margin-right: 5px;
-    }
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 15px;
+  img {
+    height: 24px;
+    width: 24px;
+    margin-right: 5px;
+  }
+  p {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  &:hover {
     p {
-        font-weight: 600;
-        font-size: 16px;
+      color: #f6b245;
     }
-    &:hover {
-        p {
-            color: #f6b245;
+  }
+}
+.popap_user {
+  .popup {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #ffffff;
+    width: 160px;
+    display: flex;
+    justify-content: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition: all 0.4s ease-in-out;
+
+    ul {
+      align-items: center;
+      list-style: none;
+      margin: 7px 0;
+      padding: 0;
+      li {
+        width: 80%;
+        margin: 5px 0;
+        button {
+          width: 140px;
         }
+      }
     }
+
+    &__hidden {
+      transform: translateX(200px);
+    }
+  }
 }

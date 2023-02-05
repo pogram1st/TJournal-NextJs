@@ -21,7 +21,7 @@ const menu = [
 export const LeftMenu: React.FC = () => {
   const router = useRouter();
   return (
-    <div className={styles.menu}>
+    <div className={`${styles.menu}`}>
       <ul>
         {menu.map((obj) => (
           <li key={obj.path}>
