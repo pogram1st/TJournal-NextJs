@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { LeftMenu } from '../components/LeftMenu';
 import { SideComments } from '../components/SideComments';
@@ -18,16 +18,20 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   className,
   hideMenu,
 }) => {
-  const [menuHidden, setMenuHidden] = React.useState(true);
+  const widthScreen = React.useRef<number>();
+  const [menuHidden, setMenuHidden] = React.useState(
+    widthScreen.current && (window.screen.availWidth > 630 ? true : false),
+  );
+  React.useEffect(() => {
+    setMenuHidden(window.screen.availWidth > 630 ? true : false);
+  }, []);
   return (
     <>
       <Header menuHidden={menuHidden} setMenuHidden={setMenuHidden} />
       <div className={clsx('wrapper', className)}>
-        {menuHidden && (
-          <div className='leftSide'>
-            <LeftMenu />
-          </div>
-        )}
+        <div className='leftSide'>
+          <LeftMenu menuHidden={menuHidden} />
+        </div>
         <div className={clsx('content', { 'content--full': contentFullWidth })}>{children}</div>
         {!hideComments && (
           <div className='rightSide'>

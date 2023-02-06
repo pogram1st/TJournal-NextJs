@@ -124,7 +124,8 @@ export const Header: React.FC<HeaderProps> = ({ setMenuHidden, menuHidden }) => 
           <Link href='/write'>
             <a>
               <Button variant='contained' className={styles.penButton}>
-                Новая запись
+                <PenIcon />
+                <p>Новая запись</p>
               </Button>
             </a>
           </Link>

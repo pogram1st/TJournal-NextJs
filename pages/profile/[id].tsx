@@ -16,7 +16,7 @@ function Profile({ postsUser, userData }) {
   const me = useAppSelector(selectUserData);
   return (
     <MainLayout contentFullWidth hideComments>
-      <Paper className='pl-20 pr-20 pt-20 mb-30' elevation={0}>
+      <Paper className='pl-20 pr-20 pt-20 mb-30 profile' elevation={0}>
         <div className='d-flex justify-between'>
           <div>
             <Avatar style={{ width: 120, height: 120, borderRadius: 6 }}>
@@ -54,21 +54,26 @@ function Profile({ postsUser, userData }) {
         </div>
         <Typography>На проекте с {userData.user.createdAt.slice(0, 10)}</Typography>
 
-        <Tabs className='mt-20' value={0} indicatorColor='primary' textColor='primary'>
-          <Tab label='Статьи' />
-          <Tab label='Комментарии' />
-          <Tab label='Закладки' />
+        <Tabs
+          className='mt-20 tabs__profile'
+          value={0}
+          indicatorColor='primary'
+          textColor='primary'
+        >
+          <Tab label='Статьи' className='tabs__profile' />
+          <Tab label='Комментарии' className='tabs__profile' />
+          <Tab label='Закладки' className='tabs__profile' />
         </Tabs>
       </Paper>
       <div className='d-flex align-start'>
-        <div className='mr-20 flex'>
+        <div className='flex container__post'>
           {postsUser.data.length > 0 ? (
             postsUser.data.map((obj) => <Post key={obj.id} item={obj} />)
           ) : (
             <h1 className='no_posts'>Постов нет</h1>
           )}
         </div>
-        <Paper style={{ width: 300 }} className='p-20 mb-20' elevation={0}>
+        <Paper style={{ width: 300 }} className='p-20 mb-20 subscribers' elevation={0}>
           <b>Подписчики</b>
           <div className='d-flex mt-15'>
             <Avatar

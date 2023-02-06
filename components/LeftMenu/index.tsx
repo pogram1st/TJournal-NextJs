@@ -18,10 +18,14 @@ const menu = [
   { text: 'Подписки', icon: <ListIcon />, path: '/follows' },
 ];
 
-export const LeftMenu: React.FC = () => {
+interface LeftMaenuProps {
+  menuHidden: boolean;
+}
+
+export const LeftMenu: React.FC<LeftMaenuProps> = ({ menuHidden }) => {
   const router = useRouter();
   return (
-    <div className={`${styles.menu}`}>
+    <div className={`${styles.menu} ${!menuHidden && styles.menu__hidden}`}>
       <ul>
         {menu.map((obj) => (
           <li key={obj.path}>

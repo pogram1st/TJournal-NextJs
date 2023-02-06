@@ -35,6 +35,10 @@
   text-transform: inherit !important;
   font-size: 16px !important;
   letter-spacing: 0 !important;
+  p {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .searchBlock {
@@ -118,5 +122,23 @@
     &__hidden {
       transform: translateX(200px);
     }
+  }
+}
+
+@media (max-width: 845px) {
+  .penButton {
+    p {
+      display: none;
+    }
+  }
+  .searchBlock {
+    width: 250px;
+  }
+}
+
+@media (max-width: 665px) {
+  .searchBlock {
+    width: 250px;
+    display: none;
   }
 }
