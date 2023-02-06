@@ -1,43 +1,71 @@
 .paper {
-    margin-top: 5px;
-    border-radius: 10px !important;
-    padding: 30px 0;
-    p {
-        margin-bottom: 15px;
-        font-size: 18px;
-    }
+  position: relative !important;
+  margin-top: 5px;
+  border-radius: 10px !important;
+  padding: 30px 0;
+  p {
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
 }
 
 .title {
-    font-weight: 500 !important;
-    margin-bottom: 20px !important;
-    font-size: 36px !important;
+  font-weight: 500 !important;
+  margin-bottom: 20px !important;
+  font-size: 36px !important;
 }
 
 .text {
-    a {
-        color: rgb(32, 150, 253);
-        text-decoration: underline;
-    }
+  a {
+    color: rgb(32, 150, 253);
+    text-decoration: underline;
+  }
 }
 
 .userInfo {
-    display: flex;
-    align-items: center;
-    img {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
+  display: flex;
+  align-items: center;
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+  }
+  b {
+    width: fit-content !important;
+    font-size: 18px;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-weight: 500;
+  }
+  span {
+    font-size: 16px;
+    color: #2ea83a;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 665px) {
+  .userBlock {
+    flex-wrap: wrap;
+    button {
+      margin-top: 15px;
     }
+  }
+  .userInfo {
     b {
-        font-size: 18px;
-        margin-right: 10px;
-        margin-left: 10px;
-        font-weight: 500;
+      font-size: 15px;
     }
     span {
-        font-size: 16px;
-        color: #2ea83a;
-        font-weight: 500;
+      font-size: 14px;
     }
+  }
+  .title {
+    font-size: 30px !important;
+  }
+  .sunscribe_btn {
+    b {
+      width: auto !important;
+      display: none !important;
+    }
+  }
 }

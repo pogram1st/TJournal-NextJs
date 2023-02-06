@@ -1,4 +1,4 @@
-import { Button, Paper, Typography } from '@material-ui/core';
+import { Button, Paper, Typography, Avatar } from '@material-ui/core';
 import React from 'react';
 import { PostActions } from '../PostActions';
 import MessageIcon from '@material-ui/icons/TextsmsOutlined';
@@ -33,14 +33,9 @@ export const FullPost: React.FC<FullPostPage> = ({ post }) => {
           <div style={{ width: 250, marginLeft: -14 }}>
             <PostActions />
           </div>
-          <div className='d-flex justify-between align-center mt-30 mb-30'>
+          <div className={`d-flex justify-between align-center mt-30 mb-30 ${styles.userBlock}`}>
             <div className={styles.userInfo}>
-              {/* <Image
-                width={40}
-                height={40}
-                src='https://leonardo.osnova.io/104b03b4-5173-fd9f-2af9-b458dddc4a23/-/scale_crop/108x108/-/format/webp/'
-                alt='Avatar'
-              /> */}
+              <Avatar>{post.user.fullName[0]}</Avatar>
               <b>{post.user.fullName}</b>
               <span>+1685</span>
             </div>
@@ -48,9 +43,9 @@ export const FullPost: React.FC<FullPostPage> = ({ post }) => {
               <Button variant='contained' className='mr-15'>
                 <MessageIcon />
               </Button>
-              <Button variant='contained'>
+              <Button className={`${styles.sunscribe_btn}`} variant='contained'>
                 <UserAddIcon />
-                <b className='ml-10'>Подписаться</b>
+                <b className={`ml-10`}>Подписаться</b>
               </Button>
             </div>
           </div>

@@ -29,10 +29,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     <>
       <Header menuHidden={menuHidden} setMenuHidden={setMenuHidden} />
       <div className={clsx('wrapper', className)}>
-        <div className='leftSide'>
-          <LeftMenu menuHidden={menuHidden} />
+        <LeftMenu menuHidden={menuHidden} />
+        <div className={clsx('content', { 'content--full': contentFullWidth || !menuHidden })}>
+          {children}
         </div>
-        <div className={clsx('content', { 'content--full': contentFullWidth })}>{children}</div>
         {!hideComments && (
           <div className='rightSide'>
             <SideComments />

@@ -40,8 +40,8 @@ a {
 }
 
 .container {
-  width: 680px;
-  margin: 0 auto;
+  max-width: 680px;
+  margin: 0 20px;
 }
 .no_posts {
   margin-top: 30px;
@@ -65,9 +65,6 @@ a {
 }
 @media (max-width: 399px) {
   body {
-    width: 400px;
-  }
-  .container {
-    width: 400px;
+    min-width: 400px;
   }
 }

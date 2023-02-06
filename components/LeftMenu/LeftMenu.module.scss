@@ -6,6 +6,7 @@
   transition: all 0.5s;
 
   &__hidden {
+    position: absolute;
     transform: translateX(-230px);
   }
 
