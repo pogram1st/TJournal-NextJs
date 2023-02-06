@@ -12,6 +12,7 @@ import { useAppSelector } from '../../redux/hooks';
 import { selectUserData } from '../../redux/slices/user';
 
 function Profile({ postsUser, userData }) {
+  console.log(postsUser, userData);
   const me = useAppSelector(selectUserData);
   return (
     <MainLayout contentFullWidth hideComments>
@@ -61,9 +62,11 @@ function Profile({ postsUser, userData }) {
       </Paper>
       <div className='d-flex align-start'>
         <div className='mr-20 flex'>
-          {postsUser.data.map((obj) => (
-            <Post key={obj.id} item={obj} />
-          ))}
+          {postsUser.data.length > 0 ? (
+            postsUser.data.map((obj) => <Post key={obj.id} item={obj} />)
+          ) : (
+            <h1 className='no_posts'>Постов нет</h1>
+          )}
         </div>
         <Paper style={{ width: 300 }} className='p-20 mb-20' elevation={0}>
           <b>Подписчики</b>
@@ -87,7 +90,6 @@ export const getServerSideProps = async (ctx) => {
   try {
     const data = await Api().post.getPostsUser(ctx.query.id);
     const user = await Api().user.getUserById(ctx.query.id);
-    console.log(user);
     return { props: { postsUser: { data }, userData: { user } } };
   } catch (err) {}
   return { props: { postsUser: null } };

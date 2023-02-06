@@ -28,7 +28,7 @@ export const Post: React.FC<{ item: PostProps }> = ({ item }) => {
 
         {item.description}
       </Typography>
-      <PostActions />
+      <PostActions views={item.views} countComments={item.comments.length} />
     </Paper>
   );
 };

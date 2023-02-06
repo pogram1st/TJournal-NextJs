@@ -44,7 +44,7 @@ export const Login: React.FC<LoginProps> = ({ setFormType }) => {
         });
       }
       setErrorMessage('');
-      dispatch(setUserData(data));
+      dispatch(setUserData(data.user));
       router.push(router.asPath);
     } catch (err) {
       if (err?.response.data.message === 'Неверный логин / пароль') {

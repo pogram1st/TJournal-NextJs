@@ -5,6 +5,7 @@ import {
   RepeatOutlined as RepostIcon,
   BookmarkBorderOutlined as FavoriteIcon,
   ShareOutlined as ShareIcon,
+  Visibility as VisibilityIcon,
 } from '@material-ui/icons';
 
 const styles: CSSProperties = {
@@ -17,13 +18,25 @@ const styles: CSSProperties = {
   margin: '0',
 };
 
-export const PostActions: React.FC = () => {
+interface PostActionsProps {
+  views?: number;
+  countComments?: number;
+}
+
+export const PostActions: React.FC<PostActionsProps> = ({ views, countComments }) => {
   return (
-    <ul style={styles}>
-      <li>
+    <ul className='align-center' style={styles}>
+      <li className='d-flex'>
+        <IconButton>
+          <VisibilityIcon />
+        </IconButton>
+        <p>{views}</p>
+      </li>
+      <li className='d-flex'>
         <IconButton>
           <CommentsIcon />
         </IconButton>
+        <p>{countComments}</p>
       </li>
       <li>
         <IconButton>

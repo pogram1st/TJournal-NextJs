@@ -19,8 +19,8 @@ import {
 import styles from './Header.module.scss';
 import { AuthDialog } from '../AuthDialog';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { logout, selectUserData } from '../../redux/slices/user';
-import { PostProps } from '../../utils/api/types';
+import { logout, selectUserData, userReducer } from '../../redux/slices/user';
+import { PostProps, ResponseCreateUser } from '../../utils/api/types';
 import { Api } from '../../utils/api/index';
 
 type FormType = 'login' | 'register' | 'main';
@@ -31,7 +31,8 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ setMenuHidden, menuHidden }) => {
-  const userData = useAppSelector(selectUserData);
+  const userData: ResponseCreateUser = useAppSelector(selectUserData);
+  console.log(userData);
 
   const dispatch = useAppDispatch();
 
@@ -110,7 +111,9 @@ export const Header: React.FC<HeaderProps> = ({ setMenuHidden, menuHidden }) => 
               <List>
                 {searchResult.map((obj) => (
                   <Link key={obj.id} href={`/news/${obj.id}`}>
-                    <ListItem button>{obj.title}</ListItem>
+                    <a>
+                      <ListItem button>{obj.title}</ListItem>
+                    </a>
                   </Link>
                 ))}
               </List>
@@ -141,11 +144,9 @@ export const Header: React.FC<HeaderProps> = ({ setMenuHidden, menuHidden }) => 
               onClick={() => setVisibleUserMenu(!visibleUserMenu)}
               ref={popupRef}
             >
-              <Avatar
-                className={styles.avatar}
-                alt='Remy Sharp'
-                src='https://leonardo.osnova.io/5ffeac9a-a0e5-5be6-98af-659bfaabd2a6/-/scale_crop/108x108/-/format/webp/'
-              />
+              <Avatar className={styles.avatar} alt='logo user'>
+                {userData && userData.fullName[0]}
+              </Avatar>
               <ArrowBottom />
               <div className={`${styles.popup} ${visibleUserMenu ? styles.popup__hidden : ''}`}>
                 <ul>

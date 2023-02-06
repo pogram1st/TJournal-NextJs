@@ -11,12 +11,22 @@ export type LoginDto = {
 };
 
 export type ResponseCreateUser = {
-  access_token: string;
   createdAt: string;
   email: string;
   fullName: string;
   id: number;
   updatedAt: string;
+};
+
+export type ResponseCreateUserApi = {
+  access_token: string;
+  user: {
+    createdAt: string;
+    email: string;
+    fullName: string;
+    id: number;
+    updatedAt: string;
+  };
 };
 
 export type PostProps = {
@@ -27,6 +37,7 @@ export type PostProps = {
   tags: string;
   views: number;
   user: ResponseCreateUser;
+  comments: [];
   createdAt: string;
   updatedAt: string;
 };
