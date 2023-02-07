@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Typography, IconButton, MenuItem, Menu, Avatar } from '@material-ui/core';
 import MoreIcon from '@material-ui/icons/MoreHorizOutlined';
 
@@ -50,8 +51,12 @@ export const Comment: React.FC<CommentPostProps> = ({ obj, currentUserId, onRemo
     <>
       <div className={styles.comment}>
         <div className={styles.userInfo}>
-          <Avatar className={'mr-10'}>{obj?.user.fullName[0]}</Avatar>
-          <b>{obj?.user.fullName}</b>
+          <Link href={`/profile/${obj.user.id}`}>
+            <a>
+              <Avatar className={'mr-10'}>{obj?.user.fullName[0]}</Avatar>
+              <b>{obj?.user.fullName}</b>
+            </a>
+          </Link>
           <span>{obj?.createdAt.replace('T', ' ').slice(0, 19)}</span>
         </div>
         <Typography className={styles.text}>{obj.text}</Typography>

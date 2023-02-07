@@ -42,9 +42,9 @@
 }
 @media (max-width: 630px) {
   .menu {
-    position: absolute;
+    position: fixed;
     background-color: #fff;
-    height: calc(100vh - 60px);
+    height: 100%;
     z-index: 1;
     top: 60px;
     left: 0;

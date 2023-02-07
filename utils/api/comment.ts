@@ -17,6 +17,12 @@ export const commentApi = (instance: AxiosInstance) => ({
     const { data } = await instance.get<CreateCommentDto, { data: commentItem[] }>('/comments');
     return data;
   },
+  async getAllCommentsUser(userId): Promise<commentItem[]> {
+    const { data } = await instance.get<CreateCommentDto, { data: commentItem[] }>(
+      `/comments/user/${userId}`,
+    );
+    return data;
+  },
   async create(dto: CreateCommentDto): Promise<commentItem> {
     const { data } = await instance.post<CreateCommentDto, { data: commentItem }>('/comments', {
       postId: dto.postId,

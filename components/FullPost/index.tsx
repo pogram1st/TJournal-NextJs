@@ -31,7 +31,7 @@ export const FullPost: React.FC<FullPostPage> = ({ post }) => {
             }
           })}
           <div style={{ width: 250, marginLeft: -14 }}>
-            <PostActions />
+            <PostActions views={post.views} countComments={post.comments.length} />
           </div>
           <div className={`d-flex justify-between align-center mt-30 mb-30 ${styles.userBlock}`}>
             <div className={styles.userInfo}>

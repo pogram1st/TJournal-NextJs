@@ -32,7 +32,6 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ setMenuHidden, menuHidden }) => {
   const userData: ResponseCreateUser = useAppSelector(selectUserData);
-  console.log(userData);
 
   const dispatch = useAppDispatch();
 

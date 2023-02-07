@@ -22,9 +22,17 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   const [menuHidden, setMenuHidden] = React.useState(
     widthScreen.current && (window.screen.availWidth > 630 ? true : false),
   );
+
   React.useEffect(() => {
     setMenuHidden(window.screen.availWidth > 630 ? true : false);
   }, []);
+  React.useEffect(() => {
+    if (menuHidden && window.screen.availWidth < 630) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'auto';
+    }
+  }, [menuHidden]);
   return (
     <>
       <Header menuHidden={menuHidden} setMenuHidden={setMenuHidden} />
