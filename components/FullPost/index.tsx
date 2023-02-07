@@ -15,7 +15,7 @@ interface FullPostPage {
 export const FullPost: React.FC<FullPostPage> = ({ post }) => {
   return (
     <Paper elevation={0} className={styles.paper}>
-      <div className='container'>
+      <div className='container__full'>
         <Typography variant='h4' className={styles.title}>
           {post.title}
         </Typography>

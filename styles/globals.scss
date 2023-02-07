@@ -41,7 +41,12 @@ a {
 
 .container {
   max-width: 680px;
-  margin: 0 20px;
+  margin: 0 30px;
+
+  &__full {
+    max-width: 1000px;
+    margin: 0 30px;
+  }
 }
 .no_posts {
   margin-top: 30px;
