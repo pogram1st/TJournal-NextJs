@@ -25,8 +25,7 @@ export const Post: React.FC<{ item: PostProps }> = ({ item }) => {
         {(imagesPost[0] || imagesPost[1]) && (
           <img width={600} height={400} src={imagesPost[0] || imagesPost[1]} alt={imagesPost[0]} />
         )}
-
-        {item.description}
+        <Typography dangerouslySetInnerHTML={{ __html: item.description }} />
       </Typography>
       <PostActions views={item.views} countComments={item.comments.length} />
     </Paper>

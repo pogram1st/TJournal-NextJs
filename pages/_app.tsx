@@ -49,6 +49,12 @@ App.getInitialProps = wrapper.getInitialAppProps((store) => async ({ ctx, Compon
       });
       ctx.res.end();
     }
+    if (ctx.asPath === '/profile/settings') {
+      ctx.res.writeHead(302, {
+        Location: '/',
+      });
+      ctx.res.end();
+    }
   }
   return {
     pageProps: Component.getInitialProps ? await Component.getInitialProps({ ...ctx, store }) : {},

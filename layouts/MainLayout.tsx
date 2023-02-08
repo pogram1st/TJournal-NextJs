@@ -26,18 +26,14 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   React.useEffect(() => {
     setMenuHidden(window.screen.availWidth > 630 ? true : false);
   }, []);
-  React.useEffect(() => {
-    if (menuHidden && window.screen.availWidth < 630) {
-      document.body.style.overflowY = 'hidden';
-    } else {
-      document.body.style.overflowY = 'auto';
-    }
-  }, [menuHidden]);
   return (
     <>
       <Header menuHidden={menuHidden} setMenuHidden={setMenuHidden} />
       <div className={clsx('wrapper', className)}>
-        <LeftMenu menuHidden={menuHidden} />
+        <div className={`${menuHidden && 'leftMenu'} ${!menuHidden && 'leftMenu__hidden'}`}>
+          <LeftMenu menuHidden={menuHidden} />
+        </div>
+
         <div className={clsx('content', { 'content--full': contentFullWidth || !menuHidden })}>
           {children}
         </div>

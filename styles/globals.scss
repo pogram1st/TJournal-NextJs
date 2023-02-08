@@ -20,11 +20,20 @@ a {
 
 .content {
   max-width: 660px;
+  min-width: 330px;
   width: 100%;
   margin: 0 auto;
 
   &--full {
     max-width: 1000px;
+  }
+}
+
+.leftMenu {
+  width: 250px;
+  margin-right: 50px;
+  &__hidden {
+    width: 0px;
   }
 }
 
@@ -37,6 +46,34 @@ a {
 .main-layout-white {
   background-color: #fff;
   height: 100vh;
+}
+
+.preloader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  background: rgba(#000000, 0.2);
+  z-index: 1000;
+}
+
+.preloader__image {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: 70px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  animation: preloader-rotate 2s infinite linear;
+}
+
+@keyframes preloader-rotate {
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 .container {
@@ -71,5 +108,10 @@ a {
 @media (max-width: 399px) {
   body {
     min-width: 400px;
+  }
+}
+@media (max-width: 450px) {
+  .leftMenu {
+    margin: 0;
   }
 }
