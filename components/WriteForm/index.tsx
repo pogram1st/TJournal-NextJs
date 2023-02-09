@@ -6,6 +6,7 @@ import styles from './WriteForm.module.scss';
 import { Api } from '../../utils/api/index';
 import { useRouter } from 'next/dist/client/router';
 import { PostProps } from '../../utils/api/types';
+import Loading from '../Loading/Loading';
 
 const Editor = dynamic(() => import('../Editor').then((m) => m.Editor), { ssr: false });
 
@@ -31,8 +32,10 @@ export const WriteForm: React.FC<WriteForm> = ({ data }) => {
         const post = await Api().post.create(obj);
         router.push(`/news/${post.id}`);
       } else {
-        const post = await Api().post.update(data.id, obj);
-        router.push(`/news/${data.id}`);
+        if (window.confirm('Вы действительно хотите изменить пост?')) {
+          const post = await Api().post.update(data.id, obj);
+          router.push(`/news/${data.id}`);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -55,6 +58,7 @@ export const WriteForm: React.FC<WriteForm> = ({ data }) => {
           <Editor initialBlocks={data?.body || []} onChange={(arr) => setBlocks(arr)} />
         </div>
       </div>
+      {isLoading && <Loading />}
 
       <Button
         disabled={isLoading || (!blocks.length && !title.length)}

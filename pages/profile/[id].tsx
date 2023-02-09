@@ -16,6 +16,7 @@ import { selectUserData } from '../../redux/slices/user';
 function Profile({ postsUser, userData, commentsUser }) {
   const [activeTab, setActiveTab] = React.useState(0);
   const me = useAppSelector(selectUserData);
+  const [posts, setPosts] = React.useState(postsUser.data);
   const [comments, setComments] = React.useState(commentsUser);
   const onRemoveComment = (id) => {
     setComments((prev) => prev.filter((item) => item.id !== id));
@@ -76,8 +77,8 @@ function Profile({ postsUser, userData, commentsUser }) {
       <div className='d-flex align-start'>
         {activeTab === 0 && (
           <div className='flex container__post'>
-            {postsUser.data.length > 0 ? (
-              postsUser.data.map((obj) => <Post key={obj.id} item={obj} />)
+            {posts.length > 0 ? (
+              posts.map((obj) => <Post key={obj.id} setPosts={setPosts} item={obj} />)
             ) : (
               <h1 className='no_posts'>Постов нет</h1>
             )}

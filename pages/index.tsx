@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { MainLayout } from '../layouts/MainLayout';
 import { Post } from '../components/Post/index';
 import { Api } from '../utils/api/index';
@@ -9,9 +11,11 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ posts }) => {
+  const [homePosts, setHomePosts] = React.useState(posts.data);
   return (
     <MainLayout>
-      {posts.data.length > 0 && posts.data.map((obj) => <Post key={obj.id} item={obj} />)}
+      {homePosts.length > 0 &&
+        homePosts.map((obj) => <Post key={obj.id} item={obj} setPosts={setHomePosts} />)}
     </MainLayout>
   );
 };

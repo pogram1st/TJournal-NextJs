@@ -35,6 +35,10 @@ export const postApi = (instance: AxiosInstance) => ({
     const { data } = await instance.post<PostProps>('/posts', dto);
     return data;
   },
+  async delete(id: number) {
+    const { data } = await instance.delete(`/posts/${id}`);
+    return data;
+  },
   async getOne(id: number): Promise<PostProps> {
     const { data } = await instance.get<PostProps>(`/posts/${id}`);
     return data;

@@ -23,9 +23,6 @@ export const getServerSideProps = async (ctx) => {
     const post = await Api(ctx).post.getOne(+postId);
     const user = await Api(ctx).user.getMe();
 
-    console.log(post, 'POST');
-    console.log(user, 'USERKA');
-
     if (post.user.id !== user?.id) {
       return {
         props: {},
