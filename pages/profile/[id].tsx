@@ -34,7 +34,7 @@ function Profile({ postsUser, userData, commentsUser }) {
             </Typography>
           </div>
           <div>
-            {+me.id === +userData.user.id ? (
+            {+me?.id === +userData.user.id ? (
               <Link href='/profile/settings'>
                 <a>
                   <Button
@@ -56,9 +56,13 @@ function Profile({ postsUser, userData, commentsUser }) {
         </div>
         <div className='d-flex mb-10 mt-10'>
           <Typography style={{ fontWeight: 'bold', color: '#35AB66' }} className='mr-15'>
-            +208
+            +{userData.user.subscriptions.length}
           </Typography>
-          <Typography>2 подписчика</Typography>
+          <Typography>
+            {userData.user.subscriptions.length
+              ? `${userData.user.subscriptions.length} подписчик`
+              : 'Пока нет подписчиков'}
+          </Typography>
         </div>
         <Typography>На проекте с {userData.user.createdAt.slice(0, 10)}</Typography>
 
@@ -105,14 +109,19 @@ function Profile({ postsUser, userData, commentsUser }) {
         <Paper style={{ width: 300 }} className='p-20 mb-20 subscribers' elevation={0}>
           <b>Подписчики</b>
           <div className='d-flex mt-15'>
-            <Avatar
-              className='mr-10'
-              src='https://leonardo.osnova.io/2d20257c-fec5-4b3e-7f60-055c86f24a4d/-/scale_crop/108x108/-/format/webp/'
-            />
-            <Avatar
-              className='mr-10'
-              src='https://leonardo.osnova.io/2d20257c-fec5-4b3e-7f60-055c86f24a4d/-/scale_crop/108x108/-/format/webp/'
-            />
+            {userData.user.subscriptions.length ? (
+              userData.user.subscriptions.map((item) => {
+                return (
+                  <Link key={item.id} href={`/profile/${item.subscriber?.id}`}>
+                    <a>
+                      <Avatar className='mr-10'>{item.subscriber.fullName[0]}</Avatar>
+                    </a>
+                  </Link>
+                );
+              })
+            ) : (
+              <b>Подписчиков пока нет =(</b>
+            )}
           </div>
         </Paper>
       </div>

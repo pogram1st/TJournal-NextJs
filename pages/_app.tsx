@@ -42,6 +42,7 @@ App.getInitialProps = wrapper.getInitialAppProps((store) => async ({ ctx, Compon
   try {
     const userData = await Api(ctx).user.getMe();
     store.dispatch(setUserData(userData));
+    console.log(userData.subscriptions);
   } catch (err) {
     if (ctx.asPath === '/write') {
       ctx.res.writeHead(302, {
