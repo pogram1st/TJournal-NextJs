@@ -39,7 +39,7 @@ export const Post: React.FC<ThisPostProps> = ({ item, setPosts }) => {
   });
   return (
     <Paper elevation={0} className='p-40' classes={{ root: styles.paper }}>
-      {item.user.id === userData.id && (
+      {item.user.id === userData?.id && (
         <div className={`${styles.settingsPostIcon}`}>
           <IconButton onClick={EditPost} className='mr-10'>
             <PenIcon color='primary' />

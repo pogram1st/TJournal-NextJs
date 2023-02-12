@@ -16,6 +16,8 @@ export type ResponseCreateUser = {
   fullName: string;
   id: number;
   updatedAt: string;
+  subscriptions: any[];
+  subscribe: any[];
 };
 
 export type ResponseCreateUserApi = {
