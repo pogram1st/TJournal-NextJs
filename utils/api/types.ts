@@ -16,8 +16,8 @@ export type ResponseCreateUser = {
   fullName: string;
   id: number;
   updatedAt: string;
-  subscriptions: any[];
-  subscribe: any[];
+  subscriptions: any;
+  subscribe: any;
 };
 
 export type ResponseCreateUserApi = {
@@ -28,6 +28,8 @@ export type ResponseCreateUserApi = {
     fullName: string;
     id: number;
     updatedAt: string;
+    subscriptions: any;
+    subscribe: any;
   };
 };
 
