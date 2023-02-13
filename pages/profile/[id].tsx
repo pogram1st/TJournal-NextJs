@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
 import { Paper, Avatar, Typography, Button, Tabs, Tab } from '@material-ui/core';
+
 import {
+  PersonAddOutlined as UserAddIcon,
+  NotificationsNoneOutlined as NotificationIcon,
   SettingsOutlined as SettingsIcon,
   TextsmsOutlined as MessageIcon,
 } from '@material-ui/icons';
@@ -10,31 +13,61 @@ import { Comment } from '../../components/Comment';
 import { Post } from '../../components/Post';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Api } from '../../utils/api/index';
-import { useAppSelector } from '../../redux/hooks';
-import { selectUserData } from '../../redux/slices/user';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { selectUserData, setUserData } from '../../redux/slices/user';
+import { ResponseCreateUser, commentItem, PostProps } from '../../utils/api/types';
 
-function Profile({ postsUser, userData, commentsUser }) {
+interface ProfileProps {
+  postsUser: PostProps[];
+  userData: ResponseCreateUser;
+  commentsUser: commentItem[];
+}
+
+const Profile: React.FC<ProfileProps> = ({ postsUser, userData, commentsUser }) => {
+  const dispatch = useAppDispatch();
+
   const [activeTab, setActiveTab] = React.useState(0);
   const me = useAppSelector(selectUserData);
-  const [posts, setPosts] = React.useState(postsUser.data);
+  const isSubChannel = me?.subscribe.find((el) => +el.channel.id === +userData.id);
+  const [posts, setPosts] = React.useState(postsUser);
   const [comments, setComments] = React.useState(commentsUser);
   const onRemoveComment = (id) => {
     setComments((prev) => prev.filter((item) => item.id !== id));
   };
+
+  const subscribe = async () => {
+    if (isSubChannel) {
+      if (window.confirm('Вы действительно хотите отписаться?')) {
+        const data = await Api().sub.subscribe(+userData.id);
+        const unSub = me.subscribe.filter((item) => +item.channel.id !== +userData.id);
+        dispatch(setUserData({ ...me, subscribe: unSub }));
+        console.log(data);
+      }
+    } else {
+      const data = await Api().sub.subscribe(+userData.id);
+      console.log(data);
+      dispatch(setUserData({ ...me, subscribe: [...me.subscribe, data.sub] }));
+    }
+  };
+
+  const alertik = () => {
+    alert('Нужно авторизоваться!!!');
+  };
+
   return (
     <MainLayout contentFullWidth hideComments>
       <Paper className='pl-20 pr-20 pt-20 mb-30 profile' elevation={0}>
         <div className='d-flex justify-between'>
           <div>
             <Avatar style={{ width: 120, height: 120, borderRadius: 6 }}>
-              {userData.user.fullName[0]}
+              {userData.fullName[0]}
             </Avatar>
             <Typography style={{ fontWeight: 'bold' }} className='mt-10' variant='h4'>
-              {userData.user.fullName}
+              {userData.fullName}
             </Typography>
           </div>
           <div>
-            {+me?.id === +userData.user.id ? (
+            {+me?.id === +userData.id ? (
               <Link href='/profile/settings'>
                 <a>
                   <Button
@@ -51,20 +84,39 @@ function Profile({ postsUser, userData, commentsUser }) {
                 Написать
               </Button>
             )}
-            {}
+
+            {+me?.id !== +userData.id ? (
+              !isSubChannel ? (
+                <Button
+                  onClick={me ? subscribe : alertik}
+                  className={`sunscribe_btn ml-10`}
+                  variant='contained'
+                >
+                  <UserAddIcon />
+                  <b className={`ml-10`}>Подписаться</b>
+                </Button>
+              ) : (
+                <Button className='ml-10' onClick={subscribe} variant='contained' color='primary'>
+                  <NotificationIcon />
+                  <b className={`ml-10`}>Вы подписаны</b>
+                </Button>
+              )
+            ) : (
+              ''
+            )}
           </div>
         </div>
         <div className='d-flex mb-10 mt-10'>
           <Typography style={{ fontWeight: 'bold', color: '#35AB66' }} className='mr-15'>
-            +{userData.user.subscriptions.length}
+            +{userData.subscriptions.length}
           </Typography>
           <Typography>
-            {userData.user.subscriptions.length
-              ? `${userData.user.subscriptions.length} подписчик`
+            {userData.subscriptions.length
+              ? `${userData.subscriptions.length} подписчик`
               : 'Пока нет подписчиков'}
           </Typography>
         </div>
-        <Typography>На проекте с {userData.user.createdAt.slice(0, 10)}</Typography>
+        <Typography>На проекте с {userData.createdAt.slice(0, 10)}</Typography>
 
         <Tabs
           className='mt-20 tabs__profile'
@@ -109,8 +161,8 @@ function Profile({ postsUser, userData, commentsUser }) {
         <Paper style={{ width: 300 }} className='p-20 mb-20 subscribers' elevation={0}>
           <b>Подписчики</b>
           <div className='d-flex mt-15'>
-            {userData.user.subscriptions.length ? (
-              userData.user.subscriptions.map((item) => {
+            {userData.subscriptions.length ? (
+              userData.subscriptions.map((item) => {
                 return (
                   <Link key={item.id} href={`/profile/${item.subscriber?.id}`}>
                     <a>
@@ -127,14 +179,14 @@ function Profile({ postsUser, userData, commentsUser }) {
       </div>
     </MainLayout>
   );
-}
+};
 
 export const getServerSideProps = async (ctx) => {
   try {
     const data = await Api().post.getPostsUser(ctx.query.id);
     const user = await Api().user.getUserById(ctx.query.id);
     const comments = await Api().comment.getAllCommentsUser(ctx.query.id);
-    return { props: { postsUser: { data }, userData: { user }, commentsUser: comments } };
+    return { props: { postsUser: data, userData: user, commentsUser: comments } };
   } catch (err) {}
   return { props: { postsUser: null } };
 };

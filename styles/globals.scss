@@ -71,6 +71,21 @@ a {
   animation: preloader-rotate 2s infinite linear;
 }
 
+.sunscribe_btn {
+  &__sub {
+    background-color: rgb(32, 150, 253) !important;
+  }
+}
+
+@media (max-width: 665px) {
+  .sunscribe_btn {
+    b {
+      width: auto !important;
+      display: none !important;
+    }
+  }
+}
+
 @keyframes preloader-rotate {
   100% {
     transform: translate(-50%, -50%) rotate(360deg);

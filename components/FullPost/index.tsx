@@ -3,23 +3,31 @@ import React from 'react';
 import { PostActions } from '../PostActions';
 import MessageIcon from '@material-ui/icons/TextsmsOutlined';
 import UserAddIcon from '@material-ui/icons/PersonAddOutlined';
-import { Close as CloseIcon, Create as PenIcon } from '@material-ui/icons';
+import {
+  Close as CloseIcon,
+  Create as PenIcon,
+  NotificationsNoneOutlined as NotificationIcon,
+} from '@material-ui/icons';
 
 import Image from 'next/image';
 
 import styles from './FullPost.module.scss';
 import { PostProps, ResponseCreateUser } from '../../utils/api/types';
-import { useAppSelector } from '../../redux/hooks';
-import { selectUserData } from '../../redux/slices/user';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { selectUserData, setUserData } from '../../redux/slices/user';
 import Router from 'next/router';
 import { Api } from '../../utils/api/index';
+import Link from 'next/link';
 
 interface FullPostPage {
   post: PostProps;
 }
 
 export const FullPost: React.FC<FullPostPage> = ({ post }) => {
+  const dispatch = useAppDispatch();
   const userData: ResponseCreateUser = useAppSelector(selectUserData);
+
+  const isSubChannel = userData?.subscribe.find((el) => +el.channel.id === +post.user.id);
 
   const EditPost = () => {
     Router.push(`/write/${post.id}`);
@@ -29,6 +37,23 @@ export const FullPost: React.FC<FullPostPage> = ({ post }) => {
     if (window.confirm('Вы действительно хотите удалить пост?')) {
       const data = await Api().post.delete(post.id);
       console.log(data);
+    }
+  };
+
+  const alertik = () => {
+    alert('Нужно авторизоваться!!!');
+  };
+
+  const subscribe = async () => {
+    if (isSubChannel) {
+      if (window.confirm('Вы действительно хотите отписаться?')) {
+        const data = await Api().sub.subscribe(+post.user.id);
+        const unSub = userData.subscribe.filter((item) => +item.channel.id !== +post.user.id);
+        dispatch(setUserData({ ...userData, subscribe: unSub }));
+      }
+    } else {
+      const data = await Api().sub.subscribe(+post.user.id);
+      dispatch(setUserData({ ...userData, subscribe: [...userData.subscribe, data.sub] }));
     }
   };
 
@@ -54,19 +79,39 @@ export const FullPost: React.FC<FullPostPage> = ({ post }) => {
           </div>
           <div className={`d-flex justify-between align-center mt-30 mb-30 ${styles.userBlock}`}>
             <div className={styles.userInfo}>
-              <Avatar>{post.user.fullName[0]}</Avatar>
-              <b>{post.user.fullName}</b>
-              <span>+1685</span>
+              <Link href={`/profile/${post.user.id}`}>
+                <a>
+                  <Avatar>{post.user.fullName[0]}</Avatar>
+                  <b>{post.user.fullName}</b>
+                </a>
+              </Link>
+
+              <span>+10</span>
             </div>
-            {userData.id !== post.user.id ? (
+            {userData?.id !== post.user.id ? (
               <div>
                 <Button variant='contained' className='mr-15'>
                   <MessageIcon />
                 </Button>
-                <Button className={`${styles.sunscribe_btn}`} variant='contained'>
-                  <UserAddIcon />
-                  <b className={`ml-10`}>Подписаться</b>
-                </Button>
+                {!isSubChannel ? (
+                  <Button
+                    onClick={userData ? subscribe : alertik}
+                    className={`${styles.sunscribe_btn}`}
+                    variant='contained'
+                  >
+                    <UserAddIcon />
+                    <b className={`ml-10`}>Подписаться</b>
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={subscribe}
+                    variant='contained'
+                    className={`${styles.sunscribe_btn} ${styles.sunscribe_btn__sub}`}
+                  >
+                    <NotificationIcon />
+                    <b className={`ml-10`}>Вы подписаны</b>
+                  </Button>
+                )}
               </div>
             ) : (
               <div className={`${styles.settingsPostIcon}`}>

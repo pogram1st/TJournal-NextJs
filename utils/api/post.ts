@@ -23,12 +23,12 @@ export type SearchPostDto = {
 };
 
 export const postApi = (instance: AxiosInstance) => ({
-  async getAllPosts() {
-    const { data } = await instance.get('/posts');
+  async getAllPosts(): Promise<PostProps[]> {
+    const { data } = await instance.get<PostProps[]>('/posts');
     return data;
   },
-  async getPostsUser(id: number) {
-    const { data } = await instance.get(`/posts/user/${id}`);
+  async getPostsUser(id: number): Promise<PostProps[]> {
+    const { data } = await instance.get<PostProps[]>(`/posts/user/${id}`);
     return data;
   },
   async create(dto: CreatePostDto): Promise<PostProps> {

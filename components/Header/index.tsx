@@ -68,8 +68,8 @@ export const Header: React.FC<HeaderProps> = ({ setMenuHidden, menuHidden }) => 
   };
 
   const onClickLogout = () => {
-    dispatch(logout());
     destroyCookie(null, 'authToken');
+    dispatch(logout());
   };
 
   const handleChangeInput = async (e) => {
