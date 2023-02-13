@@ -7,28 +7,25 @@ import { Close as CloseIcon, Create as PenIcon } from '@material-ui/icons';
 import styles from './Post.module.scss';
 import { PostActions } from '../PostActions';
 import { PostProps, ResponseCreateUser } from '../../utils/api/types';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { selectUserData } from '../../redux/slices/user';
 import Router from 'next/router';
 import { Api } from '../../utils/api/index';
+import { setPosts } from '../../redux/slices/posts';
 
 interface ThisPostProps {
   item: PostProps;
-  setPosts?: (prev: any) => any;
 }
 
-export const Post: React.FC<ThisPostProps> = ({ item, setPosts }) => {
+export const Post: React.FC<ThisPostProps> = ({ item }) => {
+  const dispatch = useAppDispatch();
+  const posts = useAppSelector((state) => state.posts.data);
   const userData: ResponseCreateUser = useAppSelector(selectUserData);
-
-  const EditPost = () => {
-    Router.push(`/write/${item.id}`);
-  };
 
   const DeletePost = async () => {
     if (window.confirm('Вы действительно хотите удалить пост?')) {
-      const data = await Api().post.delete(item.id);
-      setPosts((prev) => prev.filter((obj) => obj.id !== item.id));
-      console.log(data);
+      dispatch(setPosts(posts.filter((obj) => obj.id !== item.id)));
+      Api().post.delete(item.id);
     }
   };
 
@@ -41,7 +38,7 @@ export const Post: React.FC<ThisPostProps> = ({ item, setPosts }) => {
     <Paper elevation={0} className='p-40' classes={{ root: styles.paper }}>
       {item.user.id === userData?.id && (
         <div className={`${styles.settingsPostIcon}`}>
-          <IconButton onClick={EditPost} className='mr-10'>
+          <IconButton onClick={() => Router.push(`/write/${item.id}`)} className='mr-10'>
             <PenIcon color='primary' />
           </IconButton>
 

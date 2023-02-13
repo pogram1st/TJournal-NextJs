@@ -23,7 +23,7 @@
 }
 .sunscribe_btn {
   &__sub {
-    background-color: rgb(32, 150, 253) !important;
+    background-color: #4683d9 !important;
   }
 }
 
@@ -55,13 +55,24 @@
   }
 }
 
-@media (max-width: 665px) {
+@media (max-width: 535px) {
   .userBlock {
     flex-wrap: wrap;
+    .buttons {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+    }
     button {
+      margin-right: 10px;
+
       margin-top: 15px;
     }
   }
+}
+
+@media (max-width: 696px) {
   .userInfo {
     b {
       font-size: 15px;

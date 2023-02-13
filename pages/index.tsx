@@ -5,27 +5,26 @@ import { Post } from '../components/Post/index';
 import { Api } from '../utils/api/index';
 import { NextPage } from 'next';
 import { PostProps } from '../utils/api/types';
+import { useAppSelector } from '../redux/hooks';
+import { wrapper } from '../redux/store';
+import { setPosts } from '../redux/slices/posts';
+import { connect } from 'react-redux';
 
-interface HomeProps {
-  posts: { data: PostProps[] };
-}
-
-const Home: NextPage<HomeProps> = ({ posts }) => {
-  const [homePosts, setHomePosts] = React.useState(posts.data);
+const Home: NextPage = () => {
+  const posts = useAppSelector((state) => state.posts.data);
   return (
     <MainLayout>
-      {homePosts.length > 0 &&
-        homePosts.map((obj) => <Post key={obj.id} item={obj} setPosts={setHomePosts} />)}
+      {posts.length > 0 && posts.map((obj) => <Post key={obj.id} item={obj} />)}
     </MainLayout>
   );
 };
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
   try {
     const data = await Api().post.getAllPosts();
-    return { props: { posts: { data } } };
+    store.dispatch(setPosts(data));
+    return { props: {} };
   } catch (err) {}
-  return { props: { posts: null } };
-};
-
-export default Home;
+  return { props: {} };
+});
+export default connect((state) => state)(Home);

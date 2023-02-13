@@ -14,8 +14,9 @@ import { Post } from '../../components/Post';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Api } from '../../utils/api/index';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { selectUserData, setUserData } from '../../redux/slices/user';
+import { selectUserData } from '../../redux/slices/user';
 import { ResponseCreateUser, commentItem, PostProps } from '../../utils/api/types';
+import { subscribes } from '../../utils/subscribe';
 
 interface ProfileProps {
   postsUser: PostProps[];
@@ -27,31 +28,17 @@ const Profile: React.FC<ProfileProps> = ({ postsUser, userData, commentsUser }) 
   const dispatch = useAppDispatch();
 
   const [activeTab, setActiveTab] = React.useState(0);
-  const me = useAppSelector(selectUserData);
+  const me: ResponseCreateUser = useAppSelector(selectUserData);
   const isSubChannel = me?.subscribe.find((el) => +el.channel.id === +userData.id);
   const [posts, setPosts] = React.useState(postsUser);
   const [comments, setComments] = React.useState(commentsUser);
+
   const onRemoveComment = (id) => {
     setComments((prev) => prev.filter((item) => item.id !== id));
   };
 
   const subscribe = async () => {
-    if (isSubChannel) {
-      if (window.confirm('Вы действительно хотите отписаться?')) {
-        const data = await Api().sub.subscribe(+userData.id);
-        const unSub = me.subscribe.filter((item) => +item.channel.id !== +userData.id);
-        dispatch(setUserData({ ...me, subscribe: unSub }));
-        console.log(data);
-      }
-    } else {
-      const data = await Api().sub.subscribe(+userData.id);
-      console.log(data);
-      dispatch(setUserData({ ...me, subscribe: [...me.subscribe, data.sub] }));
-    }
-  };
-
-  const alertik = () => {
-    alert('Нужно авторизоваться!!!');
+    subscribes(dispatch, isSubChannel, userData, me);
   };
 
   return (
@@ -79,16 +66,16 @@ const Profile: React.FC<ProfileProps> = ({ postsUser, userData, commentsUser }) 
                 </a>
               </Link>
             ) : (
-              <Button style={{ height: 42 }} variant='contained' color='primary'>
-                <MessageIcon className='mr-10' />
-                Написать
+              <Button className='sunscribe_btn' variant='contained' color='primary'>
+                <MessageIcon />
+                <b className='ml-10'>Написать</b>
               </Button>
             )}
 
             {+me?.id !== +userData.id ? (
               !isSubChannel ? (
                 <Button
-                  onClick={me ? subscribe : alertik}
+                  onClick={me ? subscribe : () => alert('Нужно авторизоваться!!!')}
                   className={`sunscribe_btn ml-10`}
                   variant='contained'
                 >
@@ -96,7 +83,12 @@ const Profile: React.FC<ProfileProps> = ({ postsUser, userData, commentsUser }) 
                   <b className={`ml-10`}>Подписаться</b>
                 </Button>
               ) : (
-                <Button className='ml-10' onClick={subscribe} variant='contained' color='primary'>
+                <Button
+                  className='sunscribe_btn'
+                  onClick={subscribe}
+                  variant='contained'
+                  color='primary'
+                >
                   <NotificationIcon />
                   <b className={`ml-10`}>Вы подписаны</b>
                 </Button>
@@ -134,7 +126,7 @@ const Profile: React.FC<ProfileProps> = ({ postsUser, userData, commentsUser }) 
         {activeTab === 0 && (
           <div className='flex container__post'>
             {posts.length > 0 ? (
-              posts.map((obj) => <Post key={obj.id} setPosts={setPosts} item={obj} />)
+              posts.map((obj) => <Post key={obj.id} item={obj} />)
             ) : (
               <h1 className='no_posts'>Постов нет</h1>
             )}

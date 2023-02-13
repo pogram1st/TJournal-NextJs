@@ -1,4 +1,4 @@
-import { Button, Paper, Typography, Avatar, IconButton } from '@material-ui/core';
+import { Button, Paper, Typography, Avatar } from '@material-ui/core';
 import React from 'react';
 import { PostActions } from '../PostActions';
 import MessageIcon from '@material-ui/icons/TextsmsOutlined';
@@ -14,10 +14,13 @@ import Image from 'next/image';
 import styles from './FullPost.module.scss';
 import { PostProps, ResponseCreateUser } from '../../utils/api/types';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { selectUserData, setUserData } from '../../redux/slices/user';
+import { selectUserData } from '../../redux/slices/user';
 import Router from 'next/router';
 import { Api } from '../../utils/api/index';
 import Link from 'next/link';
+import { subscribes } from '../../utils/subscribe';
+import { setPosts } from '../../redux/slices/posts';
+import Loading from '../Loading/Loading';
 
 interface FullPostPage {
   post: PostProps;
@@ -27,34 +30,21 @@ export const FullPost: React.FC<FullPostPage> = ({ post }) => {
   const dispatch = useAppDispatch();
   const userData: ResponseCreateUser = useAppSelector(selectUserData);
 
-  const isSubChannel = userData?.subscribe.find((el) => +el.channel.id === +post.user.id);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const EditPost = () => {
-    Router.push(`/write/${post.id}`);
-  };
+  const isSubChannel = userData?.subscribe.find((el) => +el.channel.id === +post.user.id);
 
   const DeletePost = async () => {
     if (window.confirm('Вы действительно хотите удалить пост?')) {
+      setIsLoading(true);
       const data = await Api().post.delete(post.id);
-      console.log(data);
+      Router.push('/');
+      setIsLoading(false);
     }
-  };
-
-  const alertik = () => {
-    alert('Нужно авторизоваться!!!');
   };
 
   const subscribe = async () => {
-    if (isSubChannel) {
-      if (window.confirm('Вы действительно хотите отписаться?')) {
-        const data = await Api().sub.subscribe(+post.user.id);
-        const unSub = userData.subscribe.filter((item) => +item.channel.id !== +post.user.id);
-        dispatch(setUserData({ ...userData, subscribe: unSub }));
-      }
-    } else {
-      const data = await Api().sub.subscribe(+post.user.id);
-      dispatch(setUserData({ ...userData, subscribe: [...userData.subscribe, data.sub] }));
-    }
+    subscribes(dispatch, isSubChannel, post.user, userData);
   };
 
   return (
@@ -63,6 +53,7 @@ export const FullPost: React.FC<FullPostPage> = ({ post }) => {
         <Typography variant='h4' className={styles.title}>
           {post.title}
         </Typography>
+        {isLoading && <Loading />}
         <div className={styles.text}>
           {post.body.map((obj) => {
             if (obj.type === 'image') {
@@ -89,13 +80,13 @@ export const FullPost: React.FC<FullPostPage> = ({ post }) => {
               <span>+10</span>
             </div>
             {userData?.id !== post.user.id ? (
-              <div>
+              <div className={`${styles.buttons}`}>
                 <Button variant='contained' className='mr-15'>
                   <MessageIcon />
                 </Button>
                 {!isSubChannel ? (
                   <Button
-                    onClick={userData ? subscribe : alertik}
+                    onClick={userData ? subscribe : () => alert('Нужно авторизоваться!!!')}
                     className={`${styles.sunscribe_btn}`}
                     variant='contained'
                   >
@@ -115,7 +106,7 @@ export const FullPost: React.FC<FullPostPage> = ({ post }) => {
               </div>
             ) : (
               <div className={`${styles.settingsPostIcon}`}>
-                <Button onClick={EditPost} className='mr-10'>
+                <Button onClick={() => Router.push(`/write/${post.id}`)} className='mr-10'>
                   <PenIcon color='primary' />
                 </Button>
                 <Button onClick={DeletePost} className='mr-10'>
