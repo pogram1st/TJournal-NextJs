@@ -32,7 +32,7 @@ export const FullPost: React.FC<FullPostPage> = ({ post }) => {
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const isSubChannel = userData?.subscribe.find((el) => +el.channel.id === +post.user.id);
+  const isSubChannel = userData?.subscribe?.find((el) => +el.channel.id === +post.user.id);
 
   const DeletePost = async () => {
     if (window.confirm('Вы действительно хотите удалить пост?')) {
