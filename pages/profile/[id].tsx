@@ -53,7 +53,7 @@ const Profile: React.FC<ProfileProps> = ({ postsUser, userData, commentsUser }) 
               {userData.fullName}
             </Typography>
           </div>
-          <div>
+          <div className='buttons'>
             {+me?.id === +userData.id ? (
               <Link href='/profile/settings'>
                 <a>

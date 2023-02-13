@@ -20,11 +20,11 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
 }) => {
   const widthScreen = React.useRef<number>();
   const [menuHidden, setMenuHidden] = React.useState(
-    widthScreen.current && (window.screen.availWidth > 630 ? true : false),
+    widthScreen.current && (window.screen.availWidth > 760 ? true : false),
   );
 
   React.useEffect(() => {
-    setMenuHidden(window.screen.availWidth > 630 ? true : false);
+    setMenuHidden(window.screen.availWidth > 760 ? true : false);
   }, []);
   return (
     <>
